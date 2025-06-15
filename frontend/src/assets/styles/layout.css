@@ -1,0 +1,48 @@
+.navmenu {
+  width: 100%;
+  height: 50px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  background: var(--navmenu-color);
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  color: var(--text-color);
+  font-size: var(--text-size-medium);
+}
+
+.navmenu a {
+  text-decoration: none;
+  padding: 1rem;
+}
+
+.navmenu a:hover {
+  background: var(--navmenu-hover-color);
+}
+
+.navmenu a:active,
+a:visited {
+  color: var(--text-color);
+}
+
+.navmenu a:last-child {
+  margin-right: 2rem;
+}
+
+.btnActions {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ul.pagination {
+  --bs-pagination-active-bg: var(--secondary-color);
+  --bs-pagination-active-border-color: var(--secondary-color);
+  --bs-pagination-color: var(--text-color);
+}
+
+li.page-item {
+  cursor: pointer;
+}
