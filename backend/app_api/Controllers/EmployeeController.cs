@@ -19,23 +19,42 @@ public class EmployeeController : ControllerBase
         _context = context;
     }
     
-    [HttpGet(Name = "getAll")]
+    [HttpGet("getAll")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetAll(string? search, string? name, string? birthdate, int? yearsOfExperience, string? experiencedTech,  int page = 1, int pageSize = 10)
+    public async Task<IActionResult> GetAll([FromQuery] GetAllEmployee model)
     {
         try
         {
-            if (page < 1)
+            if (model.page < 1)
             {
                 return BadRequest("Page must be greater than 0");
             }
-            if (pageSize < 1)
+            if (model.pageSize < 1)
             {
                 return BadRequest("Page size must be greater than 0");
             }
             
             var employeesQuery = _context.Employee.AsQueryable();
             var employeesTotal = await employeesQuery.CountAsync();
+
+            switch (model.orderByType)
+            {
+                case 0:
+                    employeesQuery = model.orderBy == 1 ? employeesQuery.OrderBy(e => e.Name) : employeesQuery.OrderByDescending(e => e.Name);
+                    break;
+                case 1:
+                    employeesQuery = model.orderBy == 1 ? employeesQuery.OrderBy(e => e.Birthdate) : employeesQuery.OrderByDescending(e => e.Birthdate);
+                    break;
+                case 2:
+                    employeesQuery = model.orderBy == 1 ? employeesQuery.OrderBy(e => e.Years_of_experience) : employeesQuery.OrderByDescending(e => e.Years_of_experience);
+                    break;
+                case 3:
+                    employeesQuery = model.orderBy == 1 ? employeesQuery.OrderBy(e => e.Experienced_tech) : employeesQuery.OrderByDescending(e => e.Experienced_tech);
+                    break;
+                default:
+                    employeesQuery = model.orderBy == 1 ? employeesQuery.OrderBy(e => e.Id) : employeesQuery.OrderByDescending(e => e.Id);
+                    break;
+            }
             
             List<EmployeeDTO> employees = await employeesQuery
                                         .Select(e => new EmployeeDTO
@@ -46,14 +65,14 @@ public class EmployeeController : ControllerBase
                                             YearsOfExperience = e.Years_of_experience,
                                             ExperiencedTech = e.Experienced_tech
                                         })
-                                        .OrderBy(e=> e.Id)
-                                        .Skip((page-1) * pageSize)
-                                        .Take(pageSize).ToListAsync();
+                                        // .OrderBy(e=> e.Id)
+                                        .Skip((model.page-1) * model.pageSize)
+                                        .Take(model.pageSize).ToListAsync();
             return Ok(new
             {
                 employeesTotal,
-                page,
-                totalPages = employeesTotal <= pageSize ? 1 : employeesTotal / pageSize,
+                model.page,
+                totalPages = employeesTotal <= model.pageSize ? 1 : employeesTotal / model.pageSize,
                 employees
             });
         }
@@ -64,18 +83,18 @@ public class EmployeeController : ControllerBase
         }
     }
     
-    [HttpPost(Name = "add")]
+    [HttpPost("create")]
     [AllowAnonymous]
-    public async Task<IActionResult> Add(string name, string birthdate, int yearsOfExperience, string experiencedTech)
+    public async Task<IActionResult> Create([FromBody] AddEmployee model)
     {
         try
         {
             Employee employees = new Employee
             {
-                Name = name,
-                Birthdate = DateTime.Parse(birthdate),
-                Years_of_experience = yearsOfExperience,
-                Experienced_tech = experiencedTech
+                Name = model.Name,
+                Birthdate = DateTime.Parse(model.Birthdate),
+                Years_of_experience = model.YearsOfExperience,
+                Experienced_tech = model.ExperiencedTech
             };
             _context.Employee.Add(employees);
             await _context.SaveChangesAsync();

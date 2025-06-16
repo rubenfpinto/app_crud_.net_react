@@ -14,7 +14,7 @@
 
 .navmenu a {
   text-decoration: none;
-  padding: 1rem;
+  padding: 0.8rem;
 }
 
 .navmenu a:hover {
@@ -45,4 +45,12 @@ ul.pagination {
 
 li.page-item {
   cursor: pointer;
+}
+
+.Filters {
+  width: max-content;
+}
+
+.Filters li {
+  margin-bottom: 1rem;
 }

@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { getEmployees } from '../services/api.js';
 
 export default function Search ({search, setSearch, pagination, setPagination, setEmployees}){
-  const searchSubmit = (e)=> {
+  const searchSubmit = async (e)=> {
     try {
       e.preventDefault();
-      const res = getEmployees(search, '', '', 0, '', pagination, 10);
+      const res = await getEmployees(search, 0, 1, pagination, 10);
       setEmployees(res.data.employees);
       setPagination(res.data.page);
     } catch (err) {

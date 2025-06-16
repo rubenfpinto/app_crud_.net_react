@@ -6,11 +6,11 @@ export default function DeleteConfirmation(showDelete, setShowDelete) {
 
   const handleCloseDelete = () => setShowDelete(false);
   
-  const deleteConfirmed = (e)=> {
+  const deleteConfirmed = async (e)=> {
     try {
       e.preventDefault();
       const id = document.getElementById("delId").value;
-      const res = remove(id);
+      const res = await remove(id);
       setEmployees(res.data.employees);
       setPagination(res.data.page);
     } catch (err) {

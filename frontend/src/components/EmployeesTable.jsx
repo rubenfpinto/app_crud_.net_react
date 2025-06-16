@@ -8,7 +8,7 @@ export default function EmployeesTable({employees, setEmployees, pagination, set
     useEffect(() => {
       async function fetchData() {
         try {
-          const res = await getEmployees('', '', '', 0, '', 1, 10);
+          const res = await getEmployees('', 0, 1, 1, 10);
           setEmployees(res.data.employees);
           setPagination(res.data.page);
           setTotalPages(res.data.totalPages);
@@ -30,7 +30,7 @@ export default function EmployeesTable({employees, setEmployees, pagination, set
     }
     const [showDelete, setShowDelete] = useState(false);
     const handleShowDelete = () => {
-      document.getElementById('delId').value = 1;
+      //document.getElementById('delId').value = 1;
       setShowDelete(true);
     }
     const handleCloseDelete = () => setShowDelete(false);
