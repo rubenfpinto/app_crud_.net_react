@@ -16,6 +16,6 @@ export const getEmployees = (search = '', orderByType = 0, orderBy =1, page = 1,
 }
 
 export const create = (data) => axios.post(`${API_URL}/create`, data);
-export const update = (id, data) => axios.put(`${API_URL}/update${id}`, data);
-export const remove = (id) => axios.delete(`${API_URL}/delete${id}`);
+export const update = (data) => axios.put(`${API_URL}/update/`, data);
+export const remove = (id) => axios.delete(`${API_URL}/delete/${id}`);
 

@@ -72,11 +72,11 @@ export default function Filters({filters, setFilters, pagination, setPagination,
             </li>              
             <li className='text-center'>
               <div className='d-flex justify-content-center gap-2'>
+                <button className="btn btn-secondary" onClick={resetFilter}>
+                  <i className="bi bi-arrow-repeat"> Reset</i>
+                </button>
                 <button className="btn btn-secondary" type="submit">
                   Apply
-                </button>
-                <button className="btn btn-secondary" onClick={resetFilter}>
-                  <i className="bi bi-arrow-repeat">Reset</i>
                 </button>
               </div>
             </li>

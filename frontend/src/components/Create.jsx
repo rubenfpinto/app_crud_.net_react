@@ -1,27 +1,83 @@
 import { Modal, Button } from 'react-bootstrap'
 import { useState } from 'react'
-import { create } from '../services/api';
+import { create } from '../services/api.js';
 import { getEmployees } from '../services/api.js';
+import { toast } from 'react-toastify'
 
-export default function AddEmployee(){
+export default function Create({setEmployees, setPagination, filters, pagination}){
   const [show, setShow] = useState(false);
   const [createEmployee, setCreateEmployee] = useState({
     Name: '',
     Birthdate : '',
-    YearsOfExperience: 0,
+    YearsOfExperience: '',
     ExperiencedTech: ''
   });
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setCreateEmployee({
+      Name: '',
+      Birthdate : '',
+      YearsOfExperience: '',
+      ExperiencedTech: ''
+    });
+  }
   const handleShow = () => setShow(true);
+
+  const validateForm = () => {
+    var check = true;
+    setCreateEmployee({
+      Name: createEmployee.Name.trim(),
+      Birthdate : createEmployee.Birthdate,
+      YearsOfExperience: createEmployee.YearsOfExperience,
+      ExperiencedTech: createEmployee.ExperiencedTech.trim()
+    });
+
+    if(createEmployee.Name.trim() === ''){
+        toast.warning("It's necessary to fill the Name!");
+        check = false;
+    }
+    if (createEmployee.Name.trim().length < 3 || createEmployee.Name.trim().length > 50) {
+       toast.warning("The name must be between 3 and 50 characters.");
+    }
+    const birthdateToCheck = new Date (createEmployee.Birthdate);
+    const today = new Date();
+    const limitDate = new Date ("1800-01-01");
+    if(birthdateToCheck > today || birthdateToCheck < limitDate){
+        toast.warning("It's necessary to fill the Birthdate correctly!");
+        check = false;
+    }
+
+    if(createEmployee.YearsOfExperience === '' || createEmployee.YearsOfExperience <= 0){
+        toast.warning("It's necessary to fill the Years of experience!");
+        check = false;
+    }
+
+    if(createEmployee.ExperiencedTech.trim() === ''){
+        toast.warning("It's necessary to fill the Experienced Tech!");
+        check = false;
+    }
+    return check;
+  }
 
   const employeeForm = async(e)=> {
     try {
       e.preventDefault();
-      const res = await create(createEmployee);
-      console.log('submit')
-      setEmployees(res.data.employees);
-      setPagination(res.data.page);
+      const check = validateForm();
+      console.log('create:' + check)
+      if(check){
+        const res = await create(createEmployee);
+        if(res.data.success){
+          handleClose();
+          toast.success(res.data.message);
+          const resfresh = await getEmployees('', filters.orderByType, filters.orderBy, pagination, 10);
+          setEmployees(resfresh.data.employees);
+          setPagination(resfresh.data.page);
+        }
+        else {
+          toast.error(res.data.message)
+        }
+      }
     } catch (err) {
       console.error('Something went wrong:', err);
     }
@@ -49,7 +105,7 @@ export default function AddEmployee(){
                 placeholder="Name"
                 onChange={(e) => setCreateEmployee(prev => ({
                           ...prev,
-                          [e.target.name]: e.target.value
+                          [e.target.name]: e.target.value.trimStart()
                           }))
                         }
                 required/>
@@ -97,7 +153,7 @@ export default function AddEmployee(){
                 placeholder="Most experienced Tech" 
                 onChange={(e) => setCreateEmployee(prev => ({
                           ...prev,
-                          [e.target.name]: e.target.value
+                          [e.target.name]: e.target.value.trimStart()
                           }))
                         }
                 required/>
@@ -109,7 +165,7 @@ export default function AddEmployee(){
               Close
             </Button>
             <Button variant="primary" type='submit'>
-              create
+              Create
             </Button>
           </Modal.Footer>
         </form>
