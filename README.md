@@ -9,11 +9,10 @@ It was built using **React** on the frontend and **.NET** on the backend, with a
 
 ## ✨ Features
 
-- Paginated employee listing
-- Search by name
+- Paginated employee list
+- Search
 - Filtering by name, birthdate, years of experience, and technology
 - Create, edit, and delete employees
-- Form validation
 - Visual feedback with notifications and loading states
 - Keeps filters and current page after refresh
 
