@@ -2,7 +2,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify'
 
 // Employees
-const API_URL = 'http://localhost:5204/api/employee';
+const API_URL = 'https://localhost:7168/api/employee';
 
 // export const getAll = () => axios.get(API_URL);
 export const getEmployees = (search = '', orderByType = 0, orderBy =1, page = 1, pageSize = 10) => {

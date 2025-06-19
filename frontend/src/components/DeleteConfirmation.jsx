@@ -4,12 +4,11 @@ import { toast } from 'react-toastify'
 import { getEmployees } from '../services/api.js';
 import { remove } from '../services/api.js';
 
-export default function DeleteConfirmation({id, setEmployees, setPagination, pagination, filters, search}) {
+export default function DeleteConfirmation({id, setEmployees, setPagination, pagination, filters, search, setTotalEmployees, setLoading}) {
   const [showDelete, setShowDelete] = useState(false);
   const [employeeId, setEmployeeId] = useState(null);
 
   const handleShowDelete = () => {
-    console.log('sss')
     setEmployeeId(id);
     setShowDelete(true);
   }
@@ -18,6 +17,7 @@ export default function DeleteConfirmation({id, setEmployees, setPagination, pag
   const deleteConfirmed = async (e)=> {
     try {
       e.preventDefault();
+      setLoading(true);
       const res = await remove(employeeId);
       if(res.data.success){
         handleCloseDelete();
@@ -26,6 +26,8 @@ export default function DeleteConfirmation({id, setEmployees, setPagination, pag
         const resfresh = await getEmployees(search, filters.orderByType, filters.orderBy, pagination, 10);
         setEmployees(resfresh.data.employees);
         setPagination(resfresh.data.page);
+        setTotalEmployees(resfresh.data.employeesTotal);
+        setLoading(false);
       }
       else {
         toast.error(res.data.message)

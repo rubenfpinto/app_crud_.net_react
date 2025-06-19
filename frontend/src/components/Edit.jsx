@@ -4,8 +4,9 @@ import { update } from '../services/api.js';
 import { getEmployees } from '../services/api.js';
 import { toast } from 'react-toastify'
 
-export default function Edit({id, employees, setEmployees, setPagination, filters, pagination, search}){
+export default function Edit({id, employees, setEmployees, setPagination, filters, pagination, search, setTotalEmployees, setLoading}){
   const [show, setShow] = useState(false);
+  
   const [editEmployee, setEditEmployee] = useState({
     Id: '',
     Name: '',
@@ -77,6 +78,7 @@ export default function Edit({id, employees, setEmployees, setPagination, filter
       e.preventDefault();
       const check = validateForm();
       if(check){
+        setLoading(true);
         const res = await update(editEmployee);
         if(res.data.success){
           handleClose();
@@ -84,6 +86,8 @@ export default function Edit({id, employees, setEmployees, setPagination, filter
           const resfresh = await getEmployees(search, filters.orderByType, filters.orderBy, pagination, 10);
           setEmployees(resfresh.data.employees);
           setPagination(resfresh.data.page);
+          setTotalEmployees(resfresh.data.employeesTotal);
+          setLoading(false);
         }
         else {
           toast.error(res.data.message)

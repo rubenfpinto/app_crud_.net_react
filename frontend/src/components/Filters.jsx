@@ -1,6 +1,6 @@
 import { getEmployees } from '../services/api.js';
 
-export default function Filters({filters, setFilters, pagination, setPagination, setEmployees}){
+export default function Filters({search, filters, setFilters, pagination, setPagination, setEmployees, setTotalPages, navigate, searchParams, setTotalEmployees, setLoading}){
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -8,21 +8,35 @@ export default function Filters({filters, setFilters, pagination, setPagination,
       ...prev,
       [name]: value
     }));
+    searchParams.set([name], value);
+    navigate(`?${searchParams.toString()}`);
   };
 
-  const resetFilter = () => {
+  const resetFilter = (e) => {
     setFilters({
       orderByType: 0,
       orderBy: 1
     });
+    searchParams.set("orderByType", 0);
+    searchParams.set("orderBy", 1);
+    navigate(`?${searchParams.toString()}`);
+    document.getElementById('filters').requestSubmit();
   };
 
   const applyFilter = async (e)=> {
     try {
       e.preventDefault();
-      const res = await getEmployees('', filters.orderByType, filters.orderBy, pagination, 10);
+      searchParams.set("orderBy", filters.orderBy);
+      searchParams.set("orderByType", filters.orderByType);
+      navigate(`?${searchParams.toString()}`);
+      console.log("filters")
+      setLoading(true);
+      const res = await getEmployees(search, filters.orderByType, filters.orderBy, pagination, 10);
       setEmployees(res.data.employees);
       setPagination(res.data.page);
+      setTotalPages(res.data.totalPages);
+      setTotalEmployees(res.data.employeesTotal);
+      setLoading(false);
     } catch (err) {
       console.error('Something went wrong:', err);
     }
@@ -34,7 +48,7 @@ export default function Filters({filters, setFilters, pagination, setPagination,
           <i className="bi bi-filter"></i> Filter
         </button>
         <ul className="dropdown-menu p-3">
-          <form className='Filters' onSubmit={applyFilter}>
+          <form className='Filters' id="filters" onSubmit={applyFilter}>
             <li>
               <div className="form-floating">
                 <select 

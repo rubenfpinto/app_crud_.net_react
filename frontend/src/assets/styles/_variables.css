@@ -1,8 +1,10 @@
 :root {
   --primary-color: #007bff;
-  --secondary-color: #6c757d;
-  --navmenu-color: #f0f0f0;
-  --navmenu-hover-color: #808080ff;
+  --secondary-color: #313131ff;
+  /* --navmenu-color: #f0f0f0; */
+  --navmenu-color: #313131ff;
+  --navmenu-text-color: #f0f0f0;
+  --navmenu-hover-color: #f0f0f0;
   --bg: #f8f9fa;
   --font-family: "Verdana";
   --text-color: #000000;

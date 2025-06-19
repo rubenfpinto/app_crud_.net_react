@@ -3,6 +3,60 @@ body {
   margin: 0;
   background: var(--background-color);
   font-family: var(--font-family);
+  transition: opca;
+}
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.fade-in.fade2 {
+  animation-delay: 0.2s;
+}
+
+.fade-in.fade3 {
+  animation-delay: 0.5s;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+footer {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+li {
+  list-style: none;
+}
+
+table thead.table-dark {
+  --bs-table-bg: var(--secondary-color);
+}
+
+.tech {
+  background-color: var(--secondary-color);
+  color: white;
+  border-radius: 0.8rem;
+}
+.tech > div:first-child {
+  border-right: 1px solid;
+  border-color: var(--bg);
+}
+
+.tech .col h3 {
+  border-bottom: 1px solid;
+  border-color: var(--bg);
+  padding: 0.5rem;
+}
+
+.tech .col ul {
+  padding: 0;
 }
 
 .navmenu {
@@ -15,21 +69,29 @@ body {
   display: flex;
   justify-content: right;
   align-items: center;
-  color: var(--text-color);
+  color: var(--navmenu-text-color);
   font-size: var(--text-size-medium);
 }
 
 .navmenu a {
   text-decoration: none;
   padding: 0.8rem;
+  color: var(--navmenu-text-color);
 }
 
 .navmenu a:hover {
   background: var(--navmenu-hover-color);
+  color: var(--text-color);
 }
 
 .navmenu a:active,
 a:visited {
+  color: var(--navmenu-text-color);
+}
+
+.page-item .page-link:active,
+.page-item .page-link:visited,
+.page-item .page-link:hover {
   color: var(--text-color);
 }
 
@@ -60,4 +122,8 @@ li.page-item {
 
 .Filters li {
   margin-bottom: 1rem;
+}
+
+.loading {
+  margin-top: 10rem;
 }

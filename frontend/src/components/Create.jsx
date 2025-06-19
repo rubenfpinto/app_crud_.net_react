@@ -4,8 +4,9 @@ import { create } from '../services/api.js';
 import { getEmployees } from '../services/api.js';
 import { toast } from 'react-toastify'
 
-export default function Create({setEmployees, setPagination, filters, pagination}){
+export default function Create({setEmployees, setPagination, filters, pagination, setTotalEmployees, setLoading}){
   const [show, setShow] = useState(false);
+  
   const [createEmployee, setCreateEmployee] = useState({
     Name: '',
     Birthdate : '',
@@ -64,8 +65,8 @@ export default function Create({setEmployees, setPagination, filters, pagination
     try {
       e.preventDefault();
       const check = validateForm();
-      console.log('create:' + check)
       if(check){
+        setLoading(true);
         const res = await create(createEmployee);
         if(res.data.success){
           handleClose();
@@ -73,6 +74,8 @@ export default function Create({setEmployees, setPagination, filters, pagination
           const resfresh = await getEmployees('', filters.orderByType, filters.orderBy, pagination, 10);
           setEmployees(resfresh.data.employees);
           setPagination(resfresh.data.page);
+          setTotalEmployees(resfresh.data.employeesTotal);
+          setLoading(false);
         }
         else {
           toast.error(res.data.message)
