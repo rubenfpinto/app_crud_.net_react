@@ -89,6 +89,19 @@ a:visited {
   color: var(--navmenu-text-color);
 }
 
+div.logoContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-left: 3rem;
+  background: var(--navmenu-hover-color);
+}
+
+img.logo {
+  width: 10rem;
+  margin: 0.5rem;
+}
+
 .page-item .page-link:active,
 .page-item .page-link:visited,
 .page-item .page-link:hover {
