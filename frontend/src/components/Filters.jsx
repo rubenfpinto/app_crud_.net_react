@@ -29,7 +29,6 @@ export default function Filters({search, filters, setFilters, pagination, setPag
       searchParams.set("orderBy", filters.orderBy);
       searchParams.set("orderByType", filters.orderByType);
       navigate(`?${searchParams.toString()}`);
-      console.log("filters")
       setLoading(true);
       const res = await getEmployees(search, filters.orderByType, filters.orderBy, pagination, 10);
       setEmployees(res.data.employees);

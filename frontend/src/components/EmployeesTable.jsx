@@ -49,8 +49,8 @@ export default function EmployeesTable({className, jumpToPage, employees, setEmp
           {loading ? (
             <tr>
              <td colSpan="5" className="text-center py-3">
-                <div class="spinner-border" role="status">
-                  <span class="visually-hidden">Loading...</span>
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Loading...</span>
                 </div>
               </td>
             </tr>
