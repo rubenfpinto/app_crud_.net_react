@@ -88,7 +88,7 @@ export default function Create({setEmployees, setPagination, filters, pagination
 
   return(
     <>
-      <Button className="btn btn-primary" onClick={handleShow}>
+      <Button className="btnDefault btn btn-primary" onClick={handleShow}>
         <i className="bi bi-person-plus"></i>
       </Button>
 

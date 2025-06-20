@@ -71,6 +71,7 @@ table thead.table-dark {
   align-items: center;
   color: var(--navmenu-text-color);
   font-size: var(--text-size-medium);
+  z-index: 2;
 }
 
 .navmenu a {
@@ -118,6 +119,11 @@ img.logo {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+button.btnDefault.btn.btn-primary {
+  --bs-btn-bg: var(--primary-color);
+  --bs-btn-border-color: var(--primary-color);
 }
 ul.pagination {
   --bs-pagination-active-bg: var(--secondary-color);

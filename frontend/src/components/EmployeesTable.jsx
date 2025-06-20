@@ -85,6 +85,7 @@ export default function EmployeesTable({className, jumpToPage, employees, setEmp
                         filters={filters}
                         search={search}
                         setTotalEmployees={setTotalEmployees}
+                        setLoading={setLoading}
                       />
                       <DeleteConfirmation             
                         id={employee.id}
@@ -93,6 +94,7 @@ export default function EmployeesTable({className, jumpToPage, employees, setEmp
                         filters={filters}
                         search={search}
                         setTotalEmployees={setTotalEmployees}
+                        setLoading={setLoading}
                       />
                     </div>
                   </td>
